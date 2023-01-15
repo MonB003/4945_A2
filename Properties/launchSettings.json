@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "4945_A2": {
+      "commandName": "Project",
+      "commandLineArgs": "SENDER MULTICAST"
+    }
+  }
+}

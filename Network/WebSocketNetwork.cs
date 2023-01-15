@@ -19,12 +19,21 @@ namespace _4945_A2.Network
 
         public WebSocketNetwork(int port, string ipAddress, GameThread gt, int bufferSize) : base(port, ipAddress, gt, bufferSize) { }
 
+
+
+// implement these 
+
         public override void send(P packet)
         {
             throw new NotImplementedException();
         }
 
         protected override void receive()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void setup()
         {
             throw new NotImplementedException();
         }

@@ -25,9 +25,6 @@ namespace _4945_A2.Network
 
         private Thread t;
 
-        public IPAddress mcastAddress;
-        public Socket mcastSocket;
-
         public Network(GameThread gt) {
             this.port = PORT; 
             this.ipAddress = IP_ADDRESS;
@@ -61,15 +58,6 @@ namespace _4945_A2.Network
             return ipAddress;
         }
 
-        public virtual void setup()
-        {
-            mcastAddress = IPAddress.Parse(this.GetIPAddress());
-
-            mcastSocket = new Socket(AddressFamily.InterNetwork,
-                                     SocketType.Dgram,
-                                     ProtocolType.Udp);
-
-        }
 
         public virtual void execute()
         {
@@ -79,9 +67,11 @@ namespace _4945_A2.Network
             }
 
             t = new Thread(receive);
-            t.Start();
+            //setup();
             Console.WriteLine("EXECUTE");
+            t.Start();
         }
+        public abstract void setup();
 
         protected abstract void receive();
 

@@ -14,6 +14,8 @@ namespace _4945_A2.Packet
 
         private byte[] data = new byte[DEFAULT_SIZE];
 
+       // [User, Fruit, Action, Val1, Val2, Val3];
+
 
         public Packet() {
             // Set default values for each byte in the data
@@ -48,7 +50,6 @@ namespace _4945_A2.Packet
             SetAction(action);
             SetValues(x, y, z);
         }
-
 
 
         public byte GetUser()
