@@ -42,8 +42,6 @@ namespace _4945_A2.Network
             {
                 Console.WriteLine("\n" + e.ToString());
             }
-
-            //mcastSocket.Close();
         }
 
         protected override void receive()

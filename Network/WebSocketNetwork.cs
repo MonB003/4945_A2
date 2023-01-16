@@ -38,15 +38,15 @@ namespace _4945_A2.Network
             Console.WriteLine("Connection " + connection.ToString());
             connection.StartAsync().Wait();
             Console.WriteLine(connection.State + " " + connection.ConnectionId);
+        }
+
+        protected override void receive()
+        {
             connection.On("RecievePacket", (byte user, byte fruit, byte action, byte x, byte y, byte z) =>
             {
                 P p = new P(user, fruit, action, x, y, z);
                 Console.WriteLine("RECIEVED: " + p.ToString());
             });
-        }
-
-        protected override void receive()
-        {
         }
     }
 }
