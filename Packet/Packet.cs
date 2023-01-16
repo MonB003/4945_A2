@@ -14,15 +14,14 @@ namespace _4945_A2.Packet
 
         private byte[] data = new byte[DEFAULT_SIZE];
 
-       // [User, Fruit, Action, Val1, Val2, Val3];
 
-
-        public Packet() {
+        public Packet()
+        {
             // Set default values for each byte in the data
             Random random = new Random();
             for (int i = 0; i < DEFAULT_SIZE; i++)
             {
-                data[i] = (byte) random.Next(0, 255);
+                data[i] = (byte)random.Next(0, 255);
             }
         }
 
@@ -52,13 +51,14 @@ namespace _4945_A2.Packet
         }
 
 
+
         public byte GetUser()
         {
             return data[0];
         }
         public void SetUser(byte userID)
         {
-            if (!validateRange(userID)) 
+            if (!validateRange(userID))
                 throw new Exception("User Id must be between 0 - 255");
             data[0] = userID;
         }
@@ -85,8 +85,9 @@ namespace _4945_A2.Packet
             data[2] = action;
         }
 
-        private bool validateRange(byte num) {
-            return num < MIN_BYTE || num > MAX_BYTE; 
+        private bool validateRange(byte num)
+        {
+            return num < MIN_BYTE || num > MAX_BYTE;
         }
 
 
@@ -110,17 +111,20 @@ namespace _4945_A2.Packet
             data[5] = val3;
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             string result = "";
 
-            for (int i = 0; i < data.Length; i++) {
-                result += data[i] + " "; 
+            for (int i = 0; i < data.Length; i++)
+            {
+                result += data[i] + " ";
             }
 
             return result;
         }
 
-        public byte[] GetBuffer() {
+        public byte[] GetBuffer()
+        {
             return this.data;
         }
 

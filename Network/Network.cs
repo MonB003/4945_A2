@@ -7,29 +7,31 @@ using System.Text;
 //using System.Threading.Tasks;
 using System.Threading;
 using GameThread = _4945_A2.Threads.GameThread;
-using P = _4945_A2.Packet.Packet; 
+using P = _4945_A2.Packet.Packet;
 
 
 namespace _4945_A2.Network
 {
-    public abstract class Network 
+    public abstract class Network
     {
-        private const int PORT = 8000; 
+        private const int PORT = 8000;
         private const string IP_ADDRESS = "230.0.0.1";
-        private const int BUFFER_SIZE = 100; 
+        private const int BUFFER_SIZE = 100;
 
         private int port;
-        private string ipAddress; 
+        private string ipAddress;
         private GameThread gt;
         protected byte[] buffer;
 
         private Thread t;
 
-        public Network(GameThread gt) {
-            this.port = PORT; 
+        public Network(GameThread gt)
+        {
+            this.port = PORT;
             this.ipAddress = IP_ADDRESS;
             this.buffer = new byte[BUFFER_SIZE];
             this.gt = gt;
+            setup();
         }
 
         public Network(int port, string ipAddress, GameThread gt)
@@ -38,6 +40,8 @@ namespace _4945_A2.Network
             this.ipAddress = ipAddress;
             this.gt = gt;
             this.buffer = new byte[BUFFER_SIZE];
+            setup();
+
         }
 
         public Network(int port, string ipAddress, GameThread gt, int bufferSize)
@@ -46,6 +50,7 @@ namespace _4945_A2.Network
             this.ipAddress = ipAddress;
             this.gt = gt;
             this.buffer = new byte[bufferSize];
+            setup();
         }
 
         public int GetPort()
@@ -67,7 +72,7 @@ namespace _4945_A2.Network
             }
 
             t = new Thread(receive);
-            //setup();
+            setup();
             Console.WriteLine("EXECUTE");
             t.Start();
         }

@@ -21,21 +21,16 @@ namespace _4945_A2.Network
 
         public MulticastNetwork(GameThread gt) : base(gt)
         {
-            setup();
         }
 
-        public MulticastNetwork(int port, string ipAddress, GameThread gt) : base(port, ipAddress, gt) {
-            setup();
-        }
+        public MulticastNetwork(int port, string ipAddress, GameThread gt) : base(port, ipAddress, gt) { }
 
 
-        public MulticastNetwork(int port, string ipAddress, GameThread gt, int bufferSize) : base(port, ipAddress, gt, bufferSize) {
-            setup();
-        }
+        public MulticastNetwork(int port, string ipAddress, GameThread gt, int bufferSize) : base(port, ipAddress, gt, bufferSize) { }
 
 
-
-        public override void send(P packet) {
+        public override void send(P packet)
+        {
             Console.WriteLine("SENDING: " + packet.ToString());
 
             try
@@ -65,7 +60,7 @@ namespace _4945_A2.Network
 
                 // gameEngine.notify()
             }
-           
+
         }
 
         public override void setup()
@@ -93,4 +88,5 @@ namespace _4945_A2.Network
                                         mcastOption);
         }
     }
+
 }
