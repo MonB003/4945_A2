@@ -16,7 +16,7 @@ namespace _4945_A2.Network
     {
         private const int PORT = 8000;
         private const string IP_ADDRESS = "230.0.0.1";
-        private const int BUFFER_SIZE = 100;
+        private const int BUFFER_SIZE = 6;
 
         private int port;
         private string ipAddress;
@@ -41,7 +41,6 @@ namespace _4945_A2.Network
             this.gt = gt;
             this.buffer = new byte[BUFFER_SIZE];
             setup();
-
         }
 
         public Network(int port, string ipAddress, GameThread gt, int bufferSize)

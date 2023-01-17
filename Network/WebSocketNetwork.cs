@@ -34,7 +34,7 @@ namespace _4945_A2.Network
 
         public override void setup()
         {
-            connection = new HubConnectionBuilder().WithUrl("http://localhost:5000/gamehub").Build();
+            connection = new HubConnectionBuilder().WithUrl("http://192.168.0.248:5000/gamehub").Build();
             Console.WriteLine("Connection " + connection.ToString());
             connection.StartAsync().Wait();
             Console.WriteLine(connection.State + " " + connection.ConnectionId);
@@ -50,3 +50,4 @@ namespace _4945_A2.Network
         }
     }
 }
+
