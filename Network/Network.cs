@@ -15,7 +15,7 @@ namespace _4945_A2.Network
     public abstract class Network
     {
         private const int PORT = 11000;
-        private const string IP_ADDRESS = "230.0.0.1";
+        private const string IP_ADDRESS = "230.0.0.2";
         private const int BUFFER_SIZE = 6;
 
         private int port;
@@ -71,7 +71,6 @@ namespace _4945_A2.Network
             }
 
             t = new Thread(receive);
-            setup();
             Console.WriteLine("EXECUTE");
             t.Start();
         }

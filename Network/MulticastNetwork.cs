@@ -46,7 +46,7 @@ namespace _4945_A2.Network
 
         protected override void receive()
         {
-            EndPoint remoteEP = (EndPoint)new IPEndPoint(IPAddress.Any, 0);
+            EndPoint remoteEP = (EndPoint)new IPEndPoint(IPAddress.Any, 0); // Recieve ENDPOINT
 
             while (true)
             {
@@ -65,28 +65,25 @@ namespace _4945_A2.Network
         {
           
             this.mcastAddress = IPAddress.Parse(this.GetIPAddress());
+
             this.mcastSocket = new Socket(
                 AddressFamily.InterNetwork,
                 SocketType.Dgram,
                 ProtocolType.Udp
                 );
 
-            this.mcastSocket.EnableBroadcast = true;
-
-            this.endPoint = new IPEndPoint(this.mcastAddress, this.GetPort());
-
-            IPAddress localIP = IPAddress.Parse(this.GetIPAddress()); // Change this to  hardcoded IP
-            EndPoint localEP = (EndPoint)new IPEndPoint(localIP, this.GetPort());
-
-            mcastSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
-
-            mcastSocket.Bind(localEP);
-
+            IPAddress localIP = IPAddress.Any;
+            EndPoint localEP = (EndPoint)new IPEndPoint(localIP, this.GetPort()); // RECIEVE ENDPOINT
+            // RECIEVE STUFF
             MulticastOption mcastOption = new MulticastOption(mcastAddress, localIP);
-
             mcastSocket.SetSocketOption(SocketOptionLevel.IP,
                                         SocketOptionName.AddMembership,
                                         mcastOption);
+            mcastSocket.Bind(localEP); 
+
+
+            mcastSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
+            this.endPoint = new IPEndPoint(this.mcastAddress, this.GetPort()); // SEND ENDPOINT
         }
     }
 
