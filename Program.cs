@@ -31,6 +31,9 @@ namespace Program {
 
             n.execute();
 
+            Console.WriteLine("Network setup press any button to begin");
+            Console.ReadLine();
+
             for (int i = 0; i < packets.Length; i++)
             {
                 n.send(packets[i]);
@@ -87,10 +90,10 @@ namespace Program {
         public static void Main(string[] args)
         {
             Game g = new Game();
-            Network n = new WebScoket(g);
+            Network n = new MultiCast(g);
 
             // Default args length is 0
-            testWeb(n);
+            testMulti(n);
             //if (args[0] == "SENDER")
             //    testSend(n);
             //else if (args[0] == "RECEIVER")

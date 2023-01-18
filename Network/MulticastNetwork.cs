@@ -63,6 +63,7 @@ namespace _4945_A2.Network
 
         public override void setup()
         {
+          
             this.mcastAddress = IPAddress.Parse(this.GetIPAddress());
             this.mcastSocket = new Socket(
                 AddressFamily.InterNetwork,
@@ -70,9 +71,11 @@ namespace _4945_A2.Network
                 ProtocolType.Udp
                 );
 
-            this.endPoint = new IPEndPoint(this.mcastAddress, GetPort());
+            this.mcastSocket.EnableBroadcast = true;
 
-            IPAddress localIP = IPAddress.Any;
+            this.endPoint = new IPEndPoint(this.mcastAddress, this.GetPort());
+
+            IPAddress localIP = IPAddress.Parse(this.GetIPAddress()); // Change this to  hardcoded IP
             EndPoint localEP = (EndPoint)new IPEndPoint(localIP, this.GetPort());
 
             mcastSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
