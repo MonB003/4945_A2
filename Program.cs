@@ -90,10 +90,10 @@ namespace Program {
         public static void Main(string[] args)
         {
             Game g = new Game();
-            Network n = new MultiCast(g);
+            Network n = new WebScoket(g);
 
             // Default args length is 0
-            testMulti(n);
+            testWeb(n);
             //if (args[0] == "SENDER")
             //    testSend(n);
             //else if (args[0] == "RECEIVER")
