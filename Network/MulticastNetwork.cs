@@ -15,9 +15,9 @@ namespace _4945_A2.Network
     public class MulticastNetwork : Network
     {
 
-        public IPEndPoint endPoint;
-        public IPAddress mcastAddress;
         public Socket mcastSocket;
+        public IPEndPoint endPoint;
+        public IPEndPoint groupEndPoint;
 
         public MulticastNetwork(GameThread gt) : base(gt)
         {
@@ -36,7 +36,7 @@ namespace _4945_A2.Network
             try
             {
                 //Send multicast packets to the listener.
-                this.mcastSocket.SendTo(packet.GetBuffer(), endPoint);
+                this.mcastSocket.SendTo(packet.GetBuffer(), this.groupEndPoint);
             }
             catch (Exception e)
             {
@@ -51,39 +51,30 @@ namespace _4945_A2.Network
             while (true)
             {
                 mcastSocket.ReceiveFrom(buffer, ref remoteEP);
-
                 P packet = new P(buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5]);
-
                 Console.WriteLine("RECEIVED PACKET: " + packet.ToString());
-
                 // gameEngine.notify()
             }
 
         }
 
+        private void setUpReciever() {
+            this.endPoint = new IPEndPoint(IPAddress.Any, this.GetPort());
+            this.mcastSocket.Bind(this.endPoint);
+        }
+
+        private void setUpSender() {
+            MulticastOption multicastOption = new MulticastOption(IPAddress.Parse(this.GetIPAddress()));
+            this.mcastSocket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.AddMembership, multicastOption);
+            this.groupEndPoint = new IPEndPoint(IPAddress.Parse(this.GetIPAddress()), this.GetPort());
+
+        }
         public override void setup()
         {
-          
-            this.mcastAddress = IPAddress.Parse(this.GetIPAddress());
+            this.mcastSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
-            this.mcastSocket = new Socket(
-                AddressFamily.InterNetwork,
-                SocketType.Dgram,
-                ProtocolType.Udp
-                );
-
-            IPAddress localIP = IPAddress.Any;
-            EndPoint localEP = (EndPoint)new IPEndPoint(localIP, this.GetPort()); // RECIEVE ENDPOINT
-            // RECIEVE STUFF
-            MulticastOption mcastOption = new MulticastOption(mcastAddress, localIP);
-            mcastSocket.SetSocketOption(SocketOptionLevel.IP,
-                                        SocketOptionName.AddMembership,
-                                        mcastOption);
-            mcastSocket.Bind(localEP); 
-
-
-            mcastSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
-            this.endPoint = new IPEndPoint(this.mcastAddress, this.GetPort()); // SEND ENDPOINT
+            setUpReciever();
+            setUpSender();
         }
     }
 
