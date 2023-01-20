@@ -74,6 +74,9 @@ namespace Program {
                 new P(), new P(), new P(), new P(),
             };
 
+            Console.WriteLine("Network Set up press enter to start.");
+            Console.ReadLine();
+
             for (int i = 0; i < packets.Length; i++)
             {
                 n.send(packets[i]);
@@ -85,6 +88,8 @@ namespace Program {
         public static void testReceive(Network n)
         {
             n.execute();
+            Console.WriteLine("Listening.....");
+            Console.ReadLine(); 
         }
 
         public static void Main(string[] args)

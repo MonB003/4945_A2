@@ -42,9 +42,9 @@ namespace _4945_A2.Network
 
         protected override void receive()
         {
-            connection.On("RecievePacket", (byte user, byte fruit, byte action, byte x, byte y, byte z) =>
+            connection.On("RecievePacket", (byte user, byte action, byte x, byte y, byte z) =>
             {
-                P p = new P(user, fruit, action, x, y, z);
+                P p = new P(user, action, x, y, z);
                 Console.WriteLine("RECIEVED: " + p.ToString());
             });
         }

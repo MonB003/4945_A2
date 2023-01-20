@@ -50,20 +50,26 @@ namespace _4945_A2.Network
 
             while (true)
             {
-                mcastSocket.ReceiveFrom(buffer, ref remoteEP);
-                P packet = new P(buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5]);
+                byte[] results = new byte[BUFFER_SIZE * sizeof(float)];
+
+                Console.WriteLine("BUFFER SIZE " + results.Length);
+                mcastSocket.ReceiveFrom(results, ref remoteEP);
+                Buffer.BlockCopy(results, 0, this.buffer, 0, BUFFER_SIZE * sizeof(float));
+                P packet = new P(buffer[0], buffer[1], buffer[2], buffer[3], buffer[4]);
                 Console.WriteLine("RECEIVED PACKET: " + packet.ToString());
                 // gameEngine.notify()
             }
 
         }
 
-        private void setUpReciever() {
+        private void setUpReciever()
+        {
             this.endPoint = new IPEndPoint(IPAddress.Any, this.GetPort());
             this.mcastSocket.Bind(this.endPoint);
         }
 
-        private void setUpSender() {
+        private void setUpSender()
+        {
             MulticastOption multicastOption = new MulticastOption(IPAddress.Parse(this.GetIPAddress()));
             this.mcastSocket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.AddMembership, multicastOption);
             this.groupEndPoint = new IPEndPoint(IPAddress.Parse(this.GetIPAddress()), this.GetPort());

@@ -16,12 +16,12 @@ namespace _4945_A2.Network
     {
         private const int PORT = 11000;
         private const string IP_ADDRESS = "230.0.0.2";
-        private const int BUFFER_SIZE = 6;
+        public const int BUFFER_SIZE = 5;
 
         private int port;
         private string ipAddress;
         private GameThread gt;
-        protected byte[] buffer;
+        protected float[] buffer;
 
         private Thread t;
 
@@ -29,7 +29,7 @@ namespace _4945_A2.Network
         {
             this.port = PORT;
             this.ipAddress = IP_ADDRESS;
-            this.buffer = new byte[BUFFER_SIZE];
+            this.buffer = new float[BUFFER_SIZE];
             this.gt = gt;
             setup();
         }
@@ -39,7 +39,7 @@ namespace _4945_A2.Network
             this.port = port;
             this.ipAddress = ipAddress;
             this.gt = gt;
-            this.buffer = new byte[BUFFER_SIZE];
+            this.buffer = new float[BUFFER_SIZE];
             setup();
         }
 
@@ -48,7 +48,7 @@ namespace _4945_A2.Network
             this.port = port;
             this.ipAddress = ipAddress;
             this.gt = gt;
-            this.buffer = new byte[bufferSize];
+            this.buffer = new float[bufferSize];
             setup();
         }
 
