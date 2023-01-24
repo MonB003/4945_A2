@@ -15,7 +15,7 @@ namespace _4945_A2.Network
     public abstract class Network
     {
         private const int PORT = 11000;
-        private const string IP_ADDRESS = "230.0.0.2";
+        private const string IP_ADDRESS = "224.168.100.2";
         public const int BUFFER_SIZE = 5;
 
         private int port;

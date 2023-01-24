@@ -15,9 +15,11 @@ namespace _4945_A2.Network
     public class MulticastNetwork : Network
     {
 
-        public Socket mcastSocket;
-        public IPEndPoint endPoint;
-        public IPEndPoint groupEndPoint;
+        public Socket SendSockket;
+        public Socket ListenSocket;
+
+        public IPEndPoint sendEndPoint;
+        public EndPoint listenEndPoint;
 
         public MulticastNetwork(GameThread gt) : base(gt)
         {
@@ -33,10 +35,12 @@ namespace _4945_A2.Network
         {
             Console.WriteLine("SENDING: " + packet.ToString());
 
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(this.GetIPAddress()), this.GetPort());
+
             try
             {
                 //Send multicast packets to the listener.
-                this.mcastSocket.SendTo(packet.GetBuffer(), this.groupEndPoint);
+                this.SendSockket.SendTo(packet.GetBuffer(), endPoint);
             }
             catch (Exception e)
             {
@@ -53,7 +57,7 @@ namespace _4945_A2.Network
                 byte[] results = new byte[BUFFER_SIZE * sizeof(float)];
 
                 Console.WriteLine("BUFFER SIZE " + results.Length);
-                mcastSocket.ReceiveFrom(results, ref remoteEP);
+                this.ListenSocket.ReceiveFrom(results, ref remoteEP);
                 Buffer.BlockCopy(results, 0, this.buffer, 0, BUFFER_SIZE * sizeof(float));
                 P packet = new P(buffer[0], buffer[1], buffer[2], buffer[3], buffer[4]);
                 Console.WriteLine("RECEIVED PACKET: " + packet.ToString());
@@ -62,25 +66,44 @@ namespace _4945_A2.Network
 
         }
 
-        private void setUpReciever()
+        // Recieving
+        private void ListenToMulticast()
         {
-            this.endPoint = new IPEndPoint(IPAddress.Any, this.GetPort());
-            this.mcastSocket.Bind(this.endPoint);
+            this.ListenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+
+            // Create End Point
+            IPAddress IPAny = IPAddress.Any;
+            listenEndPoint = (EndPoint)new IPEndPoint(IPAny, this.GetPort());
+
+            // Bind end point to socket
+            this.ListenSocket.Bind(this.listenEndPoint);
+
+            // Add Options
+            MulticastOption mcastOption = new MulticastOption(IPAddress.Parse(this.GetIPAddress()),IPAny);
+            this.ListenSocket.SetSocketOption(SocketOptionLevel.IP,SocketOptionName.AddMembership,mcastOption);
         }
 
-        private void setUpSender()
+        // Sending
+        private void JoinMultiCast()
         {
-            MulticastOption multicastOption = new MulticastOption(IPAddress.Parse(this.GetIPAddress()));
-            this.mcastSocket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.AddMembership, multicastOption);
-            this.groupEndPoint = new IPEndPoint(IPAddress.Parse(this.GetIPAddress()), this.GetPort());
+            // Create new socket
+            this.SendSockket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
+            // Create End Point
+            IPAddress IPAny = IPAddress.Any;
+            sendEndPoint = new IPEndPoint(IPAny, 0);
+
+            // Bind end point to the socket
+            this.SendSockket.Bind(sendEndPoint);
+
+            // Add Options
+            MulticastOption multicastOption = new MulticastOption(IPAddress.Parse(this.GetIPAddress()), IPAny);
+            this.SendSockket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.AddMembership, multicastOption);
         }
         public override void setup()
         {
-            this.mcastSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-
-            setUpReciever();
-            setUpSender();
+            ListenToMulticast();
+            JoinMultiCast();
         }
     }
 

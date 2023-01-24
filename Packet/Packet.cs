@@ -21,7 +21,7 @@ namespace _4945_A2.Packet
             Random random = new Random();
             for (int i = 0; i < DEFAULT_SIZE; i++)
             {
-                data[i] = (float)random.Next(0, 255);
+                data[i] = (float)random.Next(int.MinValue, int.MaxValue);
             }
         }
 
