@@ -55,8 +55,6 @@ namespace _4945_A2.Network
             while (true)
             {
                 byte[] results = new byte[BUFFER_SIZE * sizeof(float)];
-
-                Console.WriteLine("BUFFER SIZE " + results.Length);
                 this.ListenSocket.ReceiveFrom(results, ref remoteEP);
                 Buffer.BlockCopy(results, 0, this.buffer, 0, BUFFER_SIZE * sizeof(float));
                 P packet = new P(buffer[0], buffer[1], buffer[2], buffer[3], buffer[4]);
